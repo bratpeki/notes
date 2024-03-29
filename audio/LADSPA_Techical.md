@@ -112,3 +112,66 @@ typedef struct _LADSPA_PortRangeHint {
 
 The struct consist of the port bounds, and a
 [LADSPA_PortRangeHintDescriptor](#LADSPA_PortRangeHintDescriptor).
+
+# LADSPA_Descriptor
+
+This is the actual essence of the plugin. Here, the entirety of how
+the plugin behaves in various scenarios is described.
+
+```c
+typedef struct _LADSPA_Descriptor {
+
+  unsigned long UniqueID;
+
+  LADSPA_Properties Properties;
+
+  const char* Label;
+  const char* Name;
+  const char* Maker;
+  const char* Copyright;
+
+  unsigned long PortCount;
+  const LADSPA_PortDescriptor* PortDescriptors;
+  const char* const* PortNames;
+  const LADSPA_PortRangeHint * PortRangeHints;
+
+  void * ImplementationData;
+
+  LADSPA_Handle (*instantiate) (
+    const struct _LADSPA_Descriptor * Descriptor,
+    unsigned long SampleRate
+  );
+
+   void (*connect_port) (
+     LADSPA_Handle Instance,
+     unsigned long Port,
+     LADSPA_Data * DataLocation
+   );
+
+  void (*activate) ( LADSPA_Handle Instance );
+
+  void (*run) (
+    LADSPA_Handle Instance,
+    unsigned long SampleCount
+  );
+
+  void (*run_adding) (
+    LADSPA_Handle Instance,
+    unsigned long SampleCount
+  );
+
+  void (*set_run_adding_gain) (
+    LADSPA_Handle Instance,
+    LADSPA_Data Gain
+  );
+
+  void (*deactivate) ( LADSPA_Handle Instance );
+
+  void (*cleanup) ( LADSPA_Handle Instance );
+
+} LADSPA_Descriptor;
+```
+
+It's has a lot of elements, to be sure, but most have been covered
+in [INSERT DOC TITLE HERE](link here).
+<!-- TODO -->
